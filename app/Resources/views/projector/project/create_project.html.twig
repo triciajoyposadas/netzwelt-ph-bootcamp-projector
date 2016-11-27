@@ -1,0 +1,46 @@
+{% extends "layouts/main_layout.html.twig" %}
+
+{% block title %}Create Project{% endblock %}
+
+{% block main_content %}
+	<div class="row">
+		<div class="col s12 m12 l12">
+			<form action="#" method="post">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">Create Project</span>
+						<div class="row">
+							<div class="col s12 m5 l5">
+								<div class="row">
+									<div class="input-field col s12">
+										<input type="text" name="code" id="code" class="validate" required/>
+										<label for="code">Code</label>
+									</div>
+									<div class="input-field col s12">
+										<input type="text" name="name" id="name" class="validate" required/>
+										<label for="name">Name</label>
+									</div>
+									<div class="input-field col s12">
+										<input type="number" name="budget" id="budget" class="validate" required/>
+										<label for="budget">Budget</label>
+									</div>
+								</div>
+							</div>
+							<div class="col s12 m12 l12">
+								<div class="row">
+									<div class="input-field col s12">
+										<textarea name="remarks" id="remarks" class="materialize-textarea"></textarea>
+										<label for="remarks">Remarks</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-action right-align">
+						<input type="submit" class="waves-effect waves-light btn" value="Save">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

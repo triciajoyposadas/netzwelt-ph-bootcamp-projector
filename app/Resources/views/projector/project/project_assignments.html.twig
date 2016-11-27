@@ -1,0 +1,51 @@
+{% extends "layouts/main_layout.html.twig" %}
+
+{% block title %}Projects{% endblock %}
+
+{% block main_content %}
+	<div class="row">
+		<div class="col l12 m12 s12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title">Project Assignments - {{ project.name }}</span>
+					<br/><br/>
+					<div class="row">
+						<div class="input-field col s12 m5 l5">
+							<select>
+							{% for person in persons %}	
+								<option value="{{ person.id }}">{{ person.first_name }} {{ person.last_name }}</option>
+							{% endfor %}
+							</select>
+							<label>New Member</label>
+						</div>
+						<div class="input-field col s12 m5 l5">
+							<input type="submit" class="waves-effect waves-light btn" value="Add">
+						</div>
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th data-field="full_name">Current Members</th>
+								<th data-field="tasks"></th>
+							</tr>
+						</thead>
+						<tbody>
+					{% if assigned_persons|length %}
+						{% for person in assigned_persons %}
+							<tr>
+								<td>{{ person.first_name }} {{ person.last_name }}</td>
+								<td><a href="">Remove</a></td>
+							</tr>
+						{% endfor %}
+					{% else %}
+							<tr>
+								<td colspan="3">No persons assigned</td>
+							</tr>
+					{% endif %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

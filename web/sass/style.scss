@@ -1,0 +1,19 @@
+body{
+	font-size: 15px;
+}
+
+/* Main navigation */
+
+#main-header{
+	margin-bottom: 30px;
+
+	.brand-logo{
+		padding: 0 15px;
+	}
+}
+
+/* Sign in */
+
+#signin{
+	transform: translateY(30%);
+}

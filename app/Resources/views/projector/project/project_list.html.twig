@@ -1,0 +1,52 @@
+{% extends "layouts/main_layout.html.twig" %}
+
+{% block title %}Projects{% endblock %}
+
+{% block main_content %}
+	<div class="row">
+		<div class="col l6 m6 s12">
+			<div class="card">
+				<div class="card-content">
+					<table>
+						<thead>
+							<tr>
+								<th data-field="name">Project Name</th>
+								<th data-field="budget">Budget</th>
+								<th data-field="tasks">Tasks</th>
+							</tr>
+						</thead>
+						<tbody>
+					{% if projects|length %}
+						{% for project in projects %}
+							<tr>
+								<td>{{ project.name }}</td>
+								<td>{{ project.budget }}</td>
+								<td><a href="">Assignments</a></td>
+							</tr>
+						{% endfor %}
+					{% else %}
+							<tr>
+								<td colspan="3">No projects available</td>
+							</tr>
+					{% endif %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col l6 m6 s12">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title">Other tasks</span>
+					<div>
+						<br/>
+						<a href="">Create project...</a>
+						<br/>
+						<br/>
+						<a href="">Create person...</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
