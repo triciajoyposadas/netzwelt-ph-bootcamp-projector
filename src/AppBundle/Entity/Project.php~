@@ -38,6 +38,12 @@ class Project{
 	private $remarks;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Person", inversedBy="projects")
+     * @ORM\JoinTable(name="project_assignment")
+     */
+    private $persons;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -138,4 +144,5 @@ class Project{
     {
         return $this->remarks;
     }
+    
 }

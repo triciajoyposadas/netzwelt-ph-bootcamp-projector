@@ -3,72 +3,76 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProjectsController extends Controller{
 	
 	/**
-	 * @Route("/projects/")
+	 * @Route("/projects/", name="get_project_list")
+	 * @Method({"GET"})
 	 */
-	public function projectList(){
+	public function getProjectList(){
 		
-		$projects = array(
-			array(
-				'name' => 'Project 1',
-				'budget' => '50'
-			),
-			array(
-				'name' => 'Project 2',
-				'budget' => '35'
-			)
-		);
+		$project_svc = $this->get('app.project_svc');
+		$projects = $project_svc->getProjects();
 
 		return $this->render('projector/project/project_list.html.twig', compact('projects'));
 	}
 
 	/**
-	 * @Route("/projects/create/")
+	 * @Route("/projects/create/", name="create_project")
+	 * @Method({"GET", "POST"})
 	 */
-	public function createProject(){
+	public function createProject(Request $request){
 		
-		return $this->render('projector/project/create_project.html.twig');
+		$form = $this->createFormBuilder()
+			->add('code', TextType::class)
+			->add('name', TextType::class)
+			->add('budget', NumberType::class)
+			->add('remarks', TextareaType::class)
+			->getForm();
+
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			
+			$data = $form->getData();
+
+			$project_svc = $this->get('app.project_svc');
+			$project_svc->addProject(
+				$data['code'],
+				$data['name'],
+				$data['budget'],
+				$data['remarks']
+			);
+
+			return $this->redirectToRoute('get_project_list');
+		}
+
+		$create_project_form_view = $form->createView();
+
+		return $this->render('projector/project/create_project.html.twig', compact('create_project_form_view'));
 	}
 
 	/**
-	 * @Route("/projects/assignments/")
+	 * @Route("/projects/assignments/{project_id}", name="get_project_assignments")
+	 * @Method({"GET"})
 	 */
-	public function projectAssignments(){
+	public function getProjectAssignments($project_id){
 		
-		$project = array(
-			'name' => 'Smartforms'
-		);
+		$project_svc = $this->get('app.project_svc');
+		
+		$project = $project_svc->getProject($project_id);
 
-		$assigned_persons = array(
-			array(
-				'last_name' => 'Smith',
-				'first_name' => 'Jack'
-			),
-			array(
-				'last_name' => 'Cole',
-				'first_name' => 'Jill'
-			)
-		);
+		$unassigned_persons = $project_svc->getProjectUnassignedPersons($project_id);
 
-		$persons = array(
-			array(
-				'id' => 1,
-				'last_name' => 'Rodriguez',
-				'first_name' => 'Jajoy'
-			),
-			array(
-				'id' => 2,
-				'last_name' => 'Merill',
-				'first_name' => 'Hans'
-			)	
-		);
-
-		return $this->render('projector/project/project_assignments.html.twig', compact('project', 'assigned_persons', 'persons'));
+		return $this->render('projector/project/project_assignments.html.twig', compact('project', 'unassigned_persons'));
 	}
 
 }

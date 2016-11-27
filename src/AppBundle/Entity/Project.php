@@ -38,6 +38,12 @@ class Project{
 	private $remarks;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Person", inversedBy="projects")
+     * @ORM\JoinTable(name="project_assignment")
+     */
+    private $persons;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -137,5 +143,46 @@ class Project{
     public function getRemarks()
     {
         return $this->remarks;
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->persons = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add persons
+     *
+     * @param \AppBundle\Entity\Person $persons
+     * @return Project
+     */
+    public function addPerson(\AppBundle\Entity\Person $persons)
+    {
+        $this->persons[] = $persons;
+
+        return $this;
+    }
+
+    /**
+     * Remove persons
+     *
+     * @param \AppBundle\Entity\Person $persons
+     */
+    public function removePerson(\AppBundle\Entity\Person $persons)
+    {
+        $this->persons->removeElement($persons);
+    }
+
+    /**
+     * Get persons
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPersons()
+    {
+        return $this->persons;
     }
 }

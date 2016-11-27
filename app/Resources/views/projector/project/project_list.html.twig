@@ -21,7 +21,7 @@
 							<tr>
 								<td>{{ project.name }}</td>
 								<td>{{ project.budget }}</td>
-								<td><a href="">Assignments</a></td>
+								<td><a href="{{ path('get_project_assignments', {'project_id': project.id}) }}">Assignments</a></td>
 							</tr>
 						{% endfor %}
 					{% else %}
@@ -40,10 +40,10 @@
 					<span class="card-title">Other tasks</span>
 					<div>
 						<br/>
-						<a href="">Create project...</a>
+						<a href="{{ url('create_project') }}">Create project...</a>
 						<br/>
 						<br/>
-						<a href="">Create person...</a>
+						<a href="{{ url('create_person') }}">Create person...</a>
 					</div>
 				</div>
 			</div>
