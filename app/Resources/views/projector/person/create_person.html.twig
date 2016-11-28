@@ -13,12 +13,12 @@
 							<div class="col s12 m5 l5">
 								<div class="row">
 									<div class="input-field col s12">
-										{{ form_widget(create_person_form_view.last_name, {'id': 'last-name', 'attr': {'class': 'validate'}}) }}
+										{{ form_widget(create_person_form_view.last_name, {'id': 'last-name', 'attr': {'class': 'validate', 'pattern': '[A-Za-z]+', 'title': 'Alphabetic characters only'}}) }}
 										{# <input type="text" name="last_name" id="last-name" class="validate" minlength="2" maxlength="50" required/> #}
 										<label for="last-name">Last name</label>
 									</div>
 									<div class="input-field col s12">
-										{{ form_widget(create_person_form_view.first_name, {'id': 'first-name', 'attr': {'class': 'validate'}}) }}
+										{{ form_widget(create_person_form_view.first_name, {'id': 'first-name', 'attr': {'class': 'validate', 'pattern': '[A-Za-z]+', 'title': 'Alphabetic characters only'}}) }}
 										{# <input type="text" name="first_name" id="first-name" class="validate" minlength="2" maxlength="50" required/> #}
 										<label for="first-name">First name</label>
 									</div>
@@ -28,7 +28,7 @@
 										<label for="username">Username</label>
 									</div>
 									<div class="input-field col s12">
-										{{ form_widget(create_person_form_view.password, {'id': 'passsword', 'attr': {'class': 'validate'}}) }}
+										{{ form_widget(create_person_form_view.password, {'id': 'passsword', 'attr': {'class': 'validate', 'pattern': '\\S+', 'title': 'Spaces not allowed'}}) }}
 										{# <input type="password" name="password" id="password" class="validate" minlength="7" maxlength="11" required/> #}
 										<label for="password">Password</label>
 									</div>
