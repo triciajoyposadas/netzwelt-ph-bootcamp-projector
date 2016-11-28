@@ -16,19 +16,21 @@
 <body>
 	<div id="signin" class="row">
 		<div class="col s12 m6 offset-m3 l6 offset-l3">
-			<form action="#" method="post">
+			{{ form_start(sign_in_form_view) }}
 				<div class="card">
 					<div class="card-content">
 						<span class="card-title">Projector</span>
 						<div class="row">
 							<div class="input-field col s12">
-								<input type="email" name="username" id="username" class="validate" minlength="5" maxlength="200" required/>
+								{{ form_widget(sign_in_form_view.username, {'id': 'username', 'attr': {'class': 'validate'}}) }}
+								{# <input type="email" name="username" id="username" class="validate" minlength="5" maxlength="200" required/> #}
 								<label for="username">Username</label>
 							</div>
 						</div>
 						<div class="row">
 							<div class="input-field col s12">
-								<input type="password" name="password" id="password" class="validate" minlength="7" maxlength="11" required/>
+								{{ form_widget(sign_in_form_view.password, {'id': 'passsword', 'attr': {'class': 'validate'}}) }}
+								{# <input type="password" name="password" id="password" class="validate" minlength="7" maxlength="11" required/> #}
 								<label for="password">Password</label>
 							</div>
 						</div>
@@ -37,7 +39,7 @@
 						<input type="submit" class="waves-effect waves-light btn" value="Login">
 					</div>
 				</div>
-			</form>
+			{{ form_end(sign_in_form_view) }}
 		</div>
 	</div>
 </body>

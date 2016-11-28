@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Person;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class PersonService{
 
@@ -30,11 +31,32 @@ class PersonService{
 	    $this->em->flush();
 	}
 
-	public function attemptSignIn(){
+	public function attemptSignIn($username, $password){
+		$person = $this->em->getRepository('AppBundle:Person')->findOneBy(
+			array('username' => $username, 'password' => $password)
+		);
 
+		if($person){
+			
+			$session = $this->getRequest()->getSession();
+
+			$session->set('username', $person->getUsername());
+			$session->set('first_name', $person->getFirstname());
+
+			$session->save();
+
+			return true;
+		}
+		
+		return false;
 	}
 
-	public function attempSignout(){
+	public function attemptSignOut(){
 
+		$session = $this->session;
+
+		$session->invalidate();
+
+		$session->save();
 	}
 }

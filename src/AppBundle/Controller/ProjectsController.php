@@ -18,7 +18,7 @@ class ProjectsController extends Controller{
 	 * @Method({"GET"})
 	 */
 	public function getProjectList(){
-		
+
 		$project_svc = $this->get('app.project_svc');
 		$projects = $project_svc->getProjects();
 
@@ -67,12 +67,36 @@ class ProjectsController extends Controller{
 	public function getProjectAssignments($project_id){
 		
 		$project_svc = $this->get('app.project_svc');
-		
-		$project = $project_svc->getProject($project_id);
 
+		$project = $project_svc->getProject($project_id);
 		$unassigned_persons = $project_svc->getProjectUnassignedPersons($project_id);
 
 		return $this->render('projector/project/project_assignments.html.twig', compact('project', 'unassigned_persons'));
 	}
 
+	/**
+	 * @Route("/projects/assign/", name="assign_person")
+	 * @Method({"POST"})
+	 */
+	public function assignPerson(){
+
+		$project_id = 1;
+		$person_id = 2;
+
+		$project_svc = $this->get('app.project_svc');
+		$project_svc->assignPerson($project_id, $person_id);
+	}
+
+	/**
+	 * @Route("/projects/unassign/", name="unassign_person")
+	 * @Method({"POST"})
+	 */
+	public function unassignPerson(){
+		
+		$project_id = 1;
+		$person_id = 2;
+
+		$project_svc = $this->get('app.project_svc');
+		$project_svc->unassignPerson($project_id, $person_id);	
+	}
 }
