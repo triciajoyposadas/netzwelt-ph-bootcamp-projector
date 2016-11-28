@@ -10,8 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use AppBundle\ControllerInterface\PersonAuthenticatedController;
 
-class PersonsController extends Controller{
+class PersonsController extends Controller implements PersonAuthenticatedController{
 	
 	/**
 	 * @Route("/persons/create/", name="create_person")

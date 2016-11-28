@@ -10,8 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use AppBundle\ControllerInterface\PersonAuthenticatedController;
 
-class ProjectsController extends Controller{
+class ProjectsController extends Controller implements PersonAuthenticatedController{
 	
 	/**
 	 * @Route("/projects/", name="get_project_list")

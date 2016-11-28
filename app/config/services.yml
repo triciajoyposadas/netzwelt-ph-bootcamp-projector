@@ -13,3 +13,9 @@ services:
     app.person_svc:
         class: AppBundle\Service\PersonService
         arguments: [@doctrine.orm.entity_manager, @session]
+    app.person_authentication_listener:
+        class: AppBundle\EventListener\PersonAuthenticationListener
+        arguments: [@session, @router]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
