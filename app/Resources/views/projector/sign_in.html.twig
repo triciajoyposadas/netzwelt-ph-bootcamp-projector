@@ -43,4 +43,13 @@
 		</div>
 	</div>
 </body>
+
+<script>
+	$(document).ready(function(){
+		{% for flash_message in app.session.flashBag.get('error') %}
+			Materialize.toast("{{ flash_message }}", 4000);
+		{% endfor %}
+	});
+</script>
+
 </html>

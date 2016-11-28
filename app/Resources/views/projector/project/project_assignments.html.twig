@@ -15,7 +15,6 @@
 	<div class="row" ng-app="ProjectAssignments">
 		<div class="col l12 m12 s12">
 			<div class="card" ng-controller="ProjectAssignmentsCtrl" ng-init="init({{ project }}, {{ unassigned_persons }})">
-				{# <div ng-repeat="person in unassigned_persons">{{ '{{ person.firstName }}' }} {{ '{{ person.lastName }}' }}</div> #}
 				<div class="card-content">
 					<span class="card-title">Project Assignments - {{ '{{ project.name }}' }}</span>
 					<br/><br/>
@@ -29,7 +28,7 @@
 							
 						</div>
 						<div class="input-field col s12 m5 l5">
-							<input type="submit" class="waves-effect waves-light btn" value="Add" ng-click="assignPerson()">
+							<a href="#" class="waves-effect waves-light btn" ng-click="assignPerson()">Add</a>
 						</div>
 					</div>
 					<table>
@@ -49,12 +48,6 @@
 						<tr ng-if="project.persons.length == 0">
 							<td colspan="3">No persons assigned</td>
 						</tr>
-					
-					{# {% if project.persons|length %}
-						
-					{% else %}
-							
-					{% endif %} #}
 						</tbody>
 					</table>
 				</div>

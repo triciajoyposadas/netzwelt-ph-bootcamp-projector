@@ -34,7 +34,7 @@ class ProjectsController extends Controller{
 		$form = $this->createFormBuilder()
 			->add('code', TextType::class)
 			->add('name', TextType::class)
-			->add('budget', NumberType::class)
+			->add('budget', NumberType::class, array('scale'=> 4))
 			->add('remarks', TextareaType::class)
 			->getForm();
 
@@ -50,6 +50,11 @@ class ProjectsController extends Controller{
 				$data['name'],
 				$data['budget'],
 				$data['remarks']
+			);
+
+			$this->addFlash(
+				'success',
+				'The project was successfully created.'
 			);
 
 			return $this->redirectToRoute('get_project_list');

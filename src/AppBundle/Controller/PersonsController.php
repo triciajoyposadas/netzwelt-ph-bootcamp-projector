@@ -40,6 +40,11 @@ class PersonsController extends Controller{
 				$data['password']
 			);
 
+			$this->addFlash(
+				'success',
+				'The person was successfully created.'
+			);
+
 			return $this->redirectToRoute('get_project_list');
 		}
 

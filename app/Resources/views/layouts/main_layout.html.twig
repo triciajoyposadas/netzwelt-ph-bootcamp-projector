@@ -16,17 +16,18 @@
 	{% block head %}{% endblock %}
 </head>
 <body>
+
 	<header id="main-header">
 		<nav class="teal lighten-1">
 			<div class="nav-wrapper">
 			<a href="{{ url('get_project_list') }}" class="brand-logo">The Projector</a>
 			<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 			<ul class="right hide-on-med-and-down">
-				<li>Welcome, Harley!</li>
+				<li>Welcome, {{ app.session.get('first_name') }}!</li>
 				<li><a href="{{ url('sign_out') }}">Sign out</a></li>
 			</ul>
 			<ul class="side-nav" id="mobile-demo">
-				<li style="color: #DDD;">Welcome, Harley!</li>
+				<li style="color: #DDD;">Welcome, {{ app.session.get('first_name') }}!</li>
 				<li><a href="{{ url('sign_out') }}">Sign out</a></li>
 			</ul>
 			</div>
@@ -40,6 +41,14 @@
 	<script>
 		$(document).ready(function(){
 			$(".button-collapse").sideNav();
+
+			{% for flash_message in app.session.flashBag.get('success') %}
+				Materialize.toast("{{ flash_message }}", 4000);
+			{% endfor %}
+
+			{% for flash_message in app.session.flashBag.get('error') %}
+				Materialize.toast("{{ flash_message }}", 4000);
+			{% endfor %}
 		});
 	</script>
 

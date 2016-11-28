@@ -33,8 +33,13 @@ class SignInController extends Controller{
 			
 			if($person_svc->attemptSignIn($data['username'], $data['password']))
 				return $this->redirectToRoute('get_project_list');
-			else
+			else{
+				$this->addFlash(
+					'error',
+					'The username or password you entered does not exist.'
+				);
 				return $this->redirectToRoute('sign_in');
+			}
 		}
 		
 		$sign_in_form_view = $form->createView();

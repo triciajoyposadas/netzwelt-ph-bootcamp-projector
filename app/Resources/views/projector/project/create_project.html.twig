@@ -23,7 +23,7 @@
 										<label for="name">Name</label>
 									</div>
 									<div class="input-field col s12">
-										{{ form_widget(create_project_form_view.budget, {'id': 'budget', 'type': 'number', 'attr': {'class': 'validate'}}) }}
+										{{ form_widget(create_project_form_view.budget, {'id': 'budget', 'type': 'number', 'attr': {'class': 'validate', 'min': 0, 'step': 0.0001 }}) }}
 										{# <input type="number" name="budget" id="budget" class="validate" required/> #}
 										<label for="budget">Budget</label>
 									</div>

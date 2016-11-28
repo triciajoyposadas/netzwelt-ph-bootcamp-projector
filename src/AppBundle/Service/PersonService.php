@@ -10,8 +10,9 @@ class PersonService{
 
 	protected $em;
 
-	public function __construct(EntityManager $em){
+	public function __construct(EntityManager $em, Session $session){
 		$this->em = $em;
+		$this->session = $session;
 	}
 
 	public function getPersons(){
@@ -38,12 +39,10 @@ class PersonService{
 
 		if($person){
 			
-			$session = $this->getRequest()->getSession();
-
+			$session = new Session();
+			
 			$session->set('username', $person->getUsername());
 			$session->set('first_name', $person->getFirstname());
-
-			$session->save();
 
 			return true;
 		}
@@ -52,11 +51,6 @@ class PersonService{
 	}
 
 	public function attemptSignOut(){
-
-		$session = $this->session;
-
-		$session->invalidate();
-
-		$session->save();
+		$this->session->invalidate();
 	}
 }
