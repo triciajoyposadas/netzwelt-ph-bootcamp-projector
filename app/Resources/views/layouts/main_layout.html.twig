@@ -12,6 +12,8 @@
 	<script src="{{ asset('materialize/js/materialize.min.js') }}"></script>
 
 	<link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+
+	{% block head %}{% endblock %}
 </head>
 <body>
 	<header id="main-header">
@@ -38,9 +40,9 @@
 	<script>
 		$(document).ready(function(){
 			$(".button-collapse").sideNav();
-
-			$('select').material_select();
 		});
 	</script>
+
+	{% block javascripts %}{% endblock %}
 </body>
 </html>

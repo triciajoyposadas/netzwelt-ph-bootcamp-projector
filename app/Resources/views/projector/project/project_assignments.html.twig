@@ -2,24 +2,34 @@
 
 {% block title %}Projects{% endblock %}
 
+{% block head %}
+	<script src="{{ asset('js/angular.min.js') }}"></script>
+
+	<script>
+		var ASSIGN_PERSON_URL = "{{ url('assign_person') }}";
+		var UNASSIGN_PERSON_URL = "{{ url('unassign_person') }}";
+	</script>
+{% endblock %}
+
 {% block main_content %}
-	<div class="row">
+	<div class="row" ng-app="ProjectAssignments">
 		<div class="col l12 m12 s12">
-			<div class="card">
+			<div class="card" ng-controller="ProjectAssignmentsCtrl" ng-init="init({{ project }}, {{ unassigned_persons }})">
+				{# <div ng-repeat="person in unassigned_persons">{{ '{{ person.firstName }}' }} {{ '{{ person.lastName }}' }}</div> #}
 				<div class="card-content">
-					<span class="card-title">Project Assignments - {{ project.name }}</span>
+					<span class="card-title">Project Assignments - {{ '{{ project.name }}' }}</span>
 					<br/><br/>
 					<div class="row">
 						<div class="input-field col s12 m5 l5">
-							<select>
-							{% for person in unassigned_persons %}	
-								<option value="{{ person.id }}">{{ person.getFirstName() }} {{ person.getLastName() }}</option>
-							{% endfor %}
+							
+							<select id="person-dropdown" class="browser-default">
+								<option value="" disabled selected>New Member</option>
+								<option ng-repeat="person in unassigned_persons" value="{{ '{{ person.id }}' }}">{{ '{{ person.firstName }}' }} {{ '{{ person.lastName }}' }}</option>
 							</select>
-							<label>New Member</label>
+							
 						</div>
 						<div class="input-field col s12 m5 l5">
-							<input type="submit" class="waves-effect waves-light btn" value="Add">
+							<input type="submit" class="waves-effect waves-light btn" value="Add" ng-click="assignPerson()">
 						</div>
 					</div>
 					<table>
@@ -30,22 +40,29 @@
 							</tr>
 						</thead>
 						<tbody>
-					{% if project.persons|length %}
-						{% for person in project.persons %}
-							<tr>
-								<td>{{ person.getFirstName() }} {{ person.getLastName() }}</td>
-								<td><a href="">Remove</a></td>
-							</tr>
-						{% endfor %}
+
+						<tr ng-repeat="person in project.persons">
+							<td>{{ '{{ person.firstName }}' }} {{ '{{ person.lastName }}' }}</td>
+							<td><a href="" ng-click="unassignPerson(person)">Remove</a></td>
+						</tr>
+
+						<tr ng-if="project.persons.length == 0">
+							<td colspan="3">No persons assigned</td>
+						</tr>
+					
+					{# {% if project.persons|length %}
+						
 					{% else %}
-							<tr>
-								<td colspan="3">No persons assigned</td>
-							</tr>
-					{% endif %}
+							
+					{% endif %} #}
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('js/ProjectAssignments.js') }}"></script>
 {% endblock %}

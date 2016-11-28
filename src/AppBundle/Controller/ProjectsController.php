@@ -65,11 +65,12 @@ class ProjectsController extends Controller{
 	 * @Method({"GET"})
 	 */
 	public function getProjectAssignments($project_id){
-		
+
 		$project_svc = $this->get('app.project_svc');
 
-		$project = $project_svc->getProject($project_id);
-		$unassigned_persons = $project_svc->getProjectUnassignedPersons($project_id);
+		$project = $project_svc->getProject($project_id, $serialize_format='json');
+
+		$unassigned_persons = $project_svc->getProjectUnassignedPersons($project_id, $serialize_format='json');
 
 		return $this->render('projector/project/project_assignments.html.twig', compact('project', 'unassigned_persons'));
 	}
@@ -78,25 +79,33 @@ class ProjectsController extends Controller{
 	 * @Route("/projects/assign/", name="assign_person")
 	 * @Method({"POST"})
 	 */
-	public function assignPerson(){
+	public function assignPerson(Request $request){
 
-		$project_id = 1;
-		$person_id = 2;
+		$data = json_decode($request->getContent(), true);
+
+		$project_id = $data['project_id'];
+		$person_id = $data['person_id'];
 
 		$project_svc = $this->get('app.project_svc');
 		$project_svc->assignPerson($project_id, $person_id);
+
+		return new Response();
 	}
 
 	/**
 	 * @Route("/projects/unassign/", name="unassign_person")
 	 * @Method({"POST"})
 	 */
-	public function unassignPerson(){
+	public function unassignPerson(Request $request){
 		
-		$project_id = 1;
-		$person_id = 2;
+		$data = json_decode($request->getContent(), true);
+
+		$project_id = $data['project_id'];
+		$person_id = $data['person_id'];
 
 		$project_svc = $this->get('app.project_svc');
-		$project_svc->unassignPerson($project_id, $person_id);	
+		$project_svc->unassignPerson($project_id, $person_id);
+
+		return new Response();
 	}
 }

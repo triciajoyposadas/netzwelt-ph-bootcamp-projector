@@ -6,6 +6,10 @@ use AppBundle\Entity\Project;
 use AppBundle\Entity\Person;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\ResultSetMapping;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class ProjectService{
 
@@ -19,8 +23,24 @@ class ProjectService{
 		return $this->em->getRepository('AppBundle:Project')->findAll();
 	}
 
-	public function getProject($project_id){
-		return $this->em->getRepository('AppBundle:Project')->find($project_id);
+	public function getProject($project_id, $serialize_format=null){
+		
+		$project = $this->em->getRepository('AppBundle:Project')->find($project_id);
+
+		if($serialize_format){
+			$encoders = array(new XmlEncoder(), new JsonEncoder());
+			$normalizer = new ObjectNormalizer();
+
+			$normalizer->setCircularReferenceHandler(function ($object) {
+				return $object->getId();
+			});
+
+			$serializer = new Serializer(array($normalizer), $encoders);
+
+			$project = $serializer->serialize($project, 'json');
+		}
+
+		return $project;
 	}
 
 	public function addProject($code, $name, $budget, $remarks){
@@ -36,7 +56,7 @@ class ProjectService{
 	    $this->em->flush();
 	}
 
-	public function getProjectUnassignedPersons($project_id){
+	public function getProjectUnassignedPersons($project_id, $serialize_format=null){
 
 		$rsm = new ResultSetMapping();
 
@@ -54,7 +74,21 @@ class ProjectService{
 		
 		$query->setParameter(1, $project_id);
 
-		return $query->getResult();
+		$unassigned_persons = $query->getResult();
+
+		if($serialize_format){
+			$encoders = array(new XmlEncoder(), new JsonEncoder());
+			$normalizer = new ObjectNormalizer();
+
+			$normalizer->setCircularReferenceHandler(function ($object) {
+				return $object->getId();
+			});
+
+			$serializer = new Serializer(array($normalizer), $encoders);
+
+			$unassigned_persons = $serializer->serialize($unassigned_persons, 'json');
+		}
+		return $unassigned_persons;
 	}
 
 	public function assignPerson($project_id, $person_id){
